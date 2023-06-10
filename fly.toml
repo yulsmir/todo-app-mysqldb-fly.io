@@ -1,0 +1,27 @@
+# fly.toml app configuration file generated for todoapp-mysql-db on 2023-06-09T22:45:04+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "todoapp-mysql-db"
+primary_region = "cdg"
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[processes]
+app = "--datadir /data/mysql"
+
+[mounts]
+  source="mysqldata"
+  destination="/data"
+
+[env]
+  MYSQL_DATABASE = "todo_app"
+  MYSQL_USER = "test"
+
+# As of 04/25/2023:
+# MySQL 8.0.33 has a bug in it
+# so avoid that specific version
+[build]
+  image = "mysql:5.7"
